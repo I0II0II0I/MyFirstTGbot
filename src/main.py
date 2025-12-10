@@ -18,39 +18,38 @@ def send_welcome(message: Message):
     bot.send_message(message.from_user.id, first_text, reply_markup=keyboard)
     state = 1
 
-@bot.message_handler(func=lambda message: True)
 def rooms(text, message):
     global state
     if text == "Налево" and state == 1:
         bot.send_message(
             message.from_user.id,
-            'Ты пошел налево из комнаты', state,
+            f'Ты пошел налево из комнаты{state}',
         )
         state=3
     elif text == "Направо" and state == 1:
         bot.send_message(
             message.from_user.id,
-            'Ты пошел направо из комнаты 1', state,
+            f'Ты пошел налево из комнаты {state}',
             reply_markup=keyboard
         )
         state=2
     elif (text == "Налево" and state == 2) or (text == "Направо" and state == 3):
         bot.send_message(
             message.from_user.id,
-            'Ты пошел налево из комнаты', state,
+            f'Ты пошел налево из комнаты {state}',
         )
         state=5
     elif text == "Направо" and state == 2:
         bot.send_message(
             message.from_user.id,
-            'Ты пошел направо из комнаты 1', state,
+            f'Ты пошел налево из комнаты {state}',
             reply_markup=keyboard
         )
         state=4
     elif text == "Налево" and state == 3:
         bot.send_message(
             message.from_user.id,
-            'Ты пошел налево из комнаты', state,
+            f'Ты пошел налево из комнаты {state}',
         )
         state=6
     if text == "Налево" or text == "Направо":
