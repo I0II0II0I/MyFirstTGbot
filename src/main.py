@@ -8,7 +8,7 @@ keyboard = ReplyKeyboardMarkup(row_width=2, resize_keyboard=False)
 button1_text = "Are you shure?"
 button1 = KeyboardButton(text=button1_text)
 keyboard.add(button1)
-state = 0
+state = {}
 
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
@@ -16,42 +16,42 @@ def send_welcome(message: Message):
     global state
     first_text = f'Hi, {message.from_user.username}'
     bot.send_message(message.from_user.id, first_text, reply_markup=keyboard)
-    state = 1
+    state[message.from_user.id]={"room":1, "hp":5}
 
 def rooms(text, message):
     global state
-    if text == "Налево" and state == 1:
+    if text == "Налево" and state[message.from_user.id]["room"] == 1:
         bot.send_message(
             message.from_user.id,
-            f'Ты пошел налево из комнаты{state}',
+            f'Ты пошел налево из комнаты {state[message.from_user.id]["room"]}',
         )
-        state=3
-    elif text == "Направо" and state == 1:
+        state[message.from_user.id]["room"]=3
+    elif text == "Направо" and state[message.from_user.id]["room"] == 1:
         bot.send_message(
             message.from_user.id,
-            f'Ты пошел налево из комнаты {state}',
+            f'Ты пошел налево из комнаты {state[message.from_user.id]["room"]}',
             reply_markup=keyboard
         )
-        state=2
-    elif (text == "Налево" and state == 2) or (text == "Направо" and state == 3):
+        state[message.from_user.id]["room"]=2
+    elif (text == "Налево" and state[message.from_user.id]["room"] == 2) or (text == "Направо" and state[message.from_user.id]["room"] == 3):
         bot.send_message(
             message.from_user.id,
-            f'Ты пошел налево из комнаты {state}',
+            f'Ты пошел налево из комнаты {state[message.from_user.id]["room"]}',
         )
-        state=5
-    elif text == "Направо" and state == 2:
+        state[message.from_user.id]["room"]=5
+    elif text == "Направо" and state[message.from_user.id]["room"] == 2:
         bot.send_message(
             message.from_user.id,
-            f'Ты пошел налево из комнаты {state}',
+            f'Ты пошел налево из комнаты {state[message.from_user.id]["room"]}',
             reply_markup=keyboard
         )
-        state=4
-    elif text == "Налево" and state == 3:
+        state[message.from_user.id]["room"]=4
+    elif text == "Налево" and state[message.from_user.id]["room"] == 3:
         bot.send_message(
             message.from_user.id,
-            f'Ты пошел налево из комнаты {state}',
+            f'Ты пошел налево из комнаты {state[message.from_user.id]["room"]}',
         )
-        state=6
+        state[message.from_user.id]["room"]=6
     if text == "Налево" or text == "Направо":
         return 1
     else:
